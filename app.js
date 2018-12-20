@@ -33,7 +33,8 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
         //Add score
         roundScore += dice;
         document.querySelector('#current-' + activePlayer).textContent = roundScore;
-    } else {
+    }
+    else {
         //Next Player
         activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
         roundScore = 0;
@@ -43,5 +44,6 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
         document.querySelector('.player-1-panel').classList.toggle('active');
         //document.querySelector('palyer-0-panel').classList.remove = ('active');
         //document.querySelector('palyer-1-panel').classList.add = ('active');
+        document.querySelector('.dice').style.display = 'none';
     }
 });
