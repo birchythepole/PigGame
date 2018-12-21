@@ -47,3 +47,8 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
         document.querySelector('.dice').style.display = 'none';
     }
 });
+document.querySelector('.btn-hold').addEventListener('click', function () {
+    //Add CURRENT score to GLOBAL score
+    // Update the UI
+    // Check if layer won the game
+});
