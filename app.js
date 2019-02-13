@@ -3,23 +3,27 @@ GAME RULES:
 
 - The game has 2 players, playing in rounds
 - In each turn, a player rolls a dice as many times as he whishes. Each result get added to his ROUND score
-- BUT, if the player rolls a 1, all his ROUND score gets lost. After that, it's the next player's turn
+- BUT, if the player rolls a 1 or two 6 in a row, all his ROUND score gets lost. After that, it's the next player's turn
 - The player can choose to 'Hold', which means that his ROUND score gets added to his GLBAL score. After that, it's the next player's turn
-- The first player to reach 100 points on GLOBAL score wins the game
 
 */
 var scores, roundScore, activePlayer, gamePlaying;
 init();
+var lastDice;
 document.querySelector('.btn-roll').addEventListener('click', function () {
     if (gamePlaying) {
         //1.Random Number
         var dice = Math.floor(Math.random() * 6) + 1;
-        //2.Display resout
+        //2.Display resoult
         var diceDOM = document.querySelector('.dice');
         diceDOM.style.display = 'block';
         diceDOM.src = 'dice-' + dice + '.png';
         //3.Upadte Score only if numbr was NOT a 1.
-        if (dice !== 1) {
+        if (dice === 6 && lastDice === 6) {
+            scores[activePlayer] = 0;
+            document.querySelector('#score-' + activePlayer).textContent = '0';
+            nextPlayer();
+        } else if (dice !== 1) {
             //Add score
             roundScore += dice;
             document.querySelector('#current-' + activePlayer).textContent = roundScore;
@@ -27,6 +31,7 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
             //Next Player
             nextPlayer();
         }
+        lastDice = dice;
     }
 });
 document.querySelector('.btn-hold').addEventListener('click', function () {
@@ -34,8 +39,16 @@ document.querySelector('.btn-hold').addEventListener('click', function () {
         scores[activePlayer] += roundScore;
         // Update the UI
         document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+        var winningScore;
+        var input = document.querySelector('.final-score').value;
+        console.log(input);
+        if (input) {
+            winningScore = input;
+        } else {
+            winningScore = 100;
+        }
         // Check if layer won the game
-        if (scores[activePlayer] >= 100) {
+        if (scores[activePlayer] >= winningScore) {
             document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
             document.querySelector('.dice').style.display = 'none';
             document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
